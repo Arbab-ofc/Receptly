@@ -1,0 +1,22 @@
+[Unit]
+Description=Receptly WhatsApp receptionist
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+User=receptly
+Group=receptly
+WorkingDirectory=/srv/receptly
+ExecStart=/usr/bin/node --env-file=/srv/receptly/.env /srv/receptly/apps/server/dist/apps/server/src/server.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+KillSignal=SIGTERM
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/receptly/data
+[Install]
+WantedBy=multi-user.target

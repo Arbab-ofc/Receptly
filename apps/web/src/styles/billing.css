@@ -1,0 +1,516 @@
+.pricing-page {
+  --pricing-ink: #203c31;
+  background: #fbfcf8;
+}
+.pricing-hero {
+  padding: 80px 0 55px;
+  background: #edf2e9;
+}
+.pricing-hero h1 {
+  margin: 22px 0;
+  font-size: clamp(44px, 6.5vw, 84px);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  color: var(--pricing-ink);
+  font-weight: 500;
+  animation: pricing-enter 0.55s ease both;
+}
+.pricing-hero h1 span {
+  color: #6c8564;
+}
+.pricing-hero p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #576557;
+  animation: pricing-enter 0.55s 0.08s ease both;
+}
+.pricing-assurance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--pricing-ink);
+}
+.pricing-assurance > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pricing-plans {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-top: 40px;
+  padding-bottom: 88px;
+  gap: 24px;
+}
+.pricing-plan {
+  padding: 38px;
+  border: 1px solid #dce4d6;
+  border-radius: 18px;
+  background: #fff;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.pricing-plan:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px #203c310b;
+}
+.pricing-plan.annual {
+  background: #234d3e;
+  color: #f9fcf7;
+  border-color: #234d3e;
+}
+.pricing-plan-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 17px;
+}
+.pricing-save {
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  background: #d2e2bf;
+  color: #234d3e;
+  padding: 6px 9px;
+  border-radius: 5px;
+}
+.pricing-plan h2 {
+  margin: 30px 0 14px;
+  font-size: clamp(56px, 6vw, 80px);
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+}
+.pricing-plan h2 span {
+  font-size: 16px;
+  letter-spacing: 0;
+  color: #74816f;
+  margin-left: 8px;
+  font-weight: 400;
+}
+.pricing-plan p {
+  font-size: 14px;
+  color: #6a7565;
+  margin-bottom: 26px;
+}
+.pricing-plan.annual p,
+.pricing-plan.annual h2 span,
+.pricing-plan.annual .pricing-plan-detail {
+  color: #cfddcc;
+}
+.pricing-plan .button {
+  width: 100%;
+}
+.pricing-plan.annual .button {
+  background: #d2e2bf;
+  color: #234d3e;
+}
+.pricing-plan-detail {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 18px;
+  color: #798172;
+}
+.pricing-included {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  padding-bottom: 88px;
+}
+.pricing-included h2,
+.pricing-how h2,
+.pricing-faq h2 {
+  font-size: clamp(30px, 4vw, 45px);
+  font-weight: 500;
+  line-height: 1.13;
+  letter-spacing: -0.035em;
+  margin: 18px 0;
+}
+.pricing-included > div > p {
+  max-width: 340px;
+  font-size: 15px;
+  color: #76816e;
+  line-height: 1.7;
+}
+.pricing-feature-list > div {
+  display: flex;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid #dce4d6;
+}
+.pricing-feature-list svg {
+  flex-shrink: 0;
+  color: #547653;
+  margin-top: 2px;
+}
+.pricing-feature-list h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.pricing-feature-list p {
+  font-size: 13px;
+  color: #76816e;
+  line-height: 1.6;
+}
+.pricing-how {
+  padding-top: 50px;
+  padding-bottom: 65px;
+  border-top: 1px solid #dce4d6;
+}
+.pricing-how > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px;
+  margin-top: 40px;
+}
+.pricing-how article > span {
+  color: #819773;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.pricing-how h3 {
+  font-size: 17px;
+  margin: 18px 0 12px;
+  font-weight: 500;
+}
+.pricing-how p {
+  font-size: 14px;
+  color: #76816e;
+  line-height: 1.7;
+}
+.pricing-faq {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 60px;
+  padding-block: 50px 80px;
+}
+.pricing-faq details {
+  border-bottom: 1px solid #dce4d6;
+}
+.pricing-faq summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  list-style: none;
+}
+.pricing-faq summary::-webkit-details-marker {
+  display: none;
+}
+.pricing-faq summary span {
+  transition: transform 0.2s;
+}
+.pricing-faq details[open] summary span {
+  transform: rotate(45deg);
+}
+.pricing-faq details p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #76816e;
+  padding-bottom: 20px;
+}
+.pricing-final {
+  background: #edf2e9;
+  padding: 55px 0;
+}
+.pricing-final > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+.pricing-final h2 {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+@keyframes pricing-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.billing-subscription {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 0;
+  margin-bottom: 24px;
+  border-block: 1px solid var(--border);
+}
+.billing-subscription > div {
+  flex: 1;
+}
+.billing-subscription h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.billing-subscription p,
+.billing-note,
+.billing-notice {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.billing-notice {
+  padding: 14px 18px;
+  background: #edf2e9;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+.billing-note {
+  margin: 16px 0 20px;
+}
+.plan-choices {
+  border: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.plan-choice {
+  position: relative;
+  display: block;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.plan-choice.selected {
+  border-color: var(--accent);
+  background: #f2f6ed;
+}
+.plan-choice input {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+}
+.plan-choice:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.plan-choice-top {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-right: 24px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.plan-choice-top > span {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.plan-choice-price {
+  display: block;
+  font-size: 38px;
+  margin: 20px 0 12px;
+  letter-spacing: -0.04em;
+}
+.plan-choice-price small {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0;
+  margin-left: 5px;
+}
+.plan-choice-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+.billing-payment-grid {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 40px;
+}
+.billing-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.billing-qr img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.billing-qr p {
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.billing-payee {
+  margin-bottom: 24px;
+}
+.billing-payee > div {
+  padding: 10px 0;
+}
+.billing-payee dt {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.billing-payee dd {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.billing-payment-grid form .button {
+  margin-top: 16px;
+}
+.billing-cancel {
+  margin-top: 12px;
+}
+.billing-pending {
+  display: flex;
+  gap: 18px;
+}
+.billing-pending svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+.billing-pending h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.billing-pending p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+.billing-history article {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.billing-history h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.billing-history p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 768px) {
+  .pricing-hero {
+    padding: 52px 0 35px;
+  }
+  .pricing-plans {
+    gap: 16px;
+    padding-bottom: 48px;
+  }
+  .pricing-plan {
+    padding: 24px;
+  }
+  .pricing-included,
+  .pricing-faq {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding-bottom: 48px;
+  }
+  .pricing-included h2 br {
+    display: none;
+  }
+  .pricing-how > div {
+    gap: 22px;
+  }
+  .pricing-final > div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .billing-payment-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+@media (max-width: 540px) {
+  .pricing-plans,
+  .plan-choices {
+    grid-template-columns: 1fr;
+  }
+  .pricing-how > div {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .pricing-hero p {
+    font-size: 15px;
+  }
+  .pricing-plan h2 {
+    font-size: 64px;
+  }
+  .billing-subscription {
+    flex-wrap: wrap;
+  }
+  .billing-subscription > div {
+    flex-basis: calc(100% - 45px);
+  }
+  .billing-history article {
+    flex-direction: column;
+  }
+  .billing-payment-grid form .button {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pricing-page *,
+  .plan-choice {
+    animation: none !important;
+    transition: none !important;
+  }
+  .pricing-plan:hover {
+    transform: none;
+  }
+}
+
+.admin-plan-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.payment-sender-qr {
+  max-width: 360px;
+  margin: 20px auto;
+}
+
+.payment-sender-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+@media (max-width: 540px) {
+  .payment-sender-actions .button {
+    width: 100%;
+    white-space: normal;
+  }
+}

@@ -1,0 +1,8 @@
+node_modules
+dist
+package-lock.json
+.qodo
+nano
+.env
+output
+.playwright-cli

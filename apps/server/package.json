@@ -1,0 +1,29 @@
+{
+  "name": "@receptly/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=../../.env src/server.ts",
+    "build": "tsc",
+    "start": "node --env-file=../../.env dist/apps/server/src/server.js",
+    "backup": "tsx --env-file=../../.env src/scripts/backup.ts",
+    "restore-backup": "tsx --env-file=../../.env src/scripts/restore.ts"
+  },
+  "dependencies": {
+    "@receptly/shared": "1.0.0",
+    "fastify": "5.12.5",
+    "@fastify/cors": "11.3.0",
+    "@fastify/helmet": "13.1.1",
+    "@fastify/rate-limit": "11.2.0",
+    "firebase-admin": "14.5.0",
+    "@whiskeysockets/baileys": "7.0.0-rc14",
+    "pino": "10.4.0",
+    "qrcode": "1.5.4",
+    "zod": "4.6.5",
+    "dotenv": "18.0.5"
+  },
+  "devDependencies": {
+    "@types/qrcode": "1.5.6"
+  }
+}

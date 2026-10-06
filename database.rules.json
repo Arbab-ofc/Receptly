@@ -1,0 +1,209 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "whatsapp": {
+      ".indexOn": ["status"],
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+    "contactRequests": {
+      ".indexOn": ["createdAt", "status"]
+    },
+    "rules": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt", "priority"]
+      }
+    },
+    "templates": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt"]
+      }
+    },
+    "knowledgeBase": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt"]
+      }
+    },
+    "contacts": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt", "number", "type"]
+      }
+    },
+    "leads": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt", "status", "lastInteractionAt"]
+      }
+    },
+    "conversations": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["lastMessageAt", "stateExpiresAt"]
+      }
+    },
+    "logs": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["timestamp", "severity"]
+      }
+    },
+    "jobs": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["scheduledFor", "status", "chatId"]
+      }
+    },
+    "processedMessages": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["timestamp"]
+      }
+    },
+    "sendRequests": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["timestamp", "status"]
+      }
+    },
+    "jobClaims": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["timestamp"]
+      }
+    },
+    "settings": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+    "businessHours": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+    "analytics": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+    "messages": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        "$conversation": {
+          ".indexOn": ["timestamp"]
+        }
+      }
+    },
+    "jobHistory": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["updatedAt"]
+      }
+    },
+    "processingInbox": {
+      "$uid": {
+        ".read": false,
+        ".write": false,
+        ".indexOn": ["status", "timestamp"]
+      }
+    },
+    "metricClaims": {
+      "$uid": {
+        ".read": false,
+        ".write": false,
+        ".indexOn": ["timestamp"]
+      }
+    },
+    "accountDeletion": {
+      ".read": false,
+      ".write": false
+    },
+    "workspaceRegistry": {
+      ".read": false,
+      ".write": false
+    },
+    "catalog": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt"]
+      }
+    },
+    "holidays": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".indexOn": ["createdAt", "date"]
+      }
+    },
+    "adminAudit": {
+      ".read": false,
+      ".write": false,
+      ".indexOn": ["createdAt"]
+    },
+    "subscriptions": {
+      ".read": false,
+      ".write": false
+    },
+    "billingRequests": {
+      ".read": false,
+      ".write": false
+    },
+    "manualPayments": {
+      ".read": false,
+      ".write": false,
+      "$uid": {
+        ".indexOn": ["createdAt", "status"]
+      }
+    },
+    "paymentQueue": {
+      ".read": false,
+      ".write": false,
+      ".indexOn": ["createdAt", "status"]
+    },
+    "paymentReferences": {
+      ".read": false,
+      ".write": false
+    },
+    "accessProfiles": {
+      ".read": false,
+      ".write": false
+    },
+    "paymentNotifications": {
+      ".read": false,
+      ".write": false,
+      ".indexOn": ["scheduledFor"]
+    },
+    "paymentNotificationHistory": {
+      ".read": false,
+      ".write": false
+    },
+    "paymentWhatsApp": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

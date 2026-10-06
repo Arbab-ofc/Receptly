@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f3f6ef"/>
+  <rect x="80" y="74" width="60" height="60" rx="17" fill="#285c49"/>
+  <path d="M96 92h28v23h-17l-9 7v-7h-2z" fill="none" stroke="white" stroke-width="4" stroke-linejoin="round"/>
+  <text x="157" y="122" font-family="Arial,sans-serif" font-size="48" font-weight="bold" fill="#27352e">receptly.</text>
+  <text x="80" y="267" font-family="Arial,sans-serif" font-size="64" font-weight="bold" fill="#27352e">Your WhatsApp,</text>
+  <text x="80" y="344" font-family="Arial,sans-serif" font-size="64" font-weight="bold" fill="#285c49">always ready to respond.</text>
+  <text x="83" y="414" font-family="Arial,sans-serif" font-size="28" fill="#56634f">Automatic replies. Business hours. Human handover.</text>
+  <rect x="80" y="478" width="318" height="64" rx="12" fill="#285c49"/>
+  <text x="111" y="519" font-family="Arial,sans-serif" font-size="24" fill="white">Your smart receptionist</text>
+  <path d="M1034 472h78v62h-46l-26 21v-21h-6z" fill="none" stroke="#c7d8bf" stroke-width="8" stroke-linejoin="round"/>
+</svg>
