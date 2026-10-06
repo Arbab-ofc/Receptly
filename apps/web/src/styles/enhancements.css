@@ -2621,3 +2621,11 @@ summary:focus-visible {
     transition: none !important;
   }
 }
+
+.guide-article .documentation-credit {
+  color: var(--text-secondary);
+  font-size: var(--text-ui);
+}
+.guide-article section > p + p {
+  margin-top: 16px;
+}

@@ -179,3 +179,7 @@ This reuses the existing Baileys WhatsApp Web transport without a paid Cloud API
 In Settings → Replies & menu, enable the WhatsApp menu and use **Add pricing & hours menu** to populate editable options. Save settings to enable it. Pricing uses enabled catalog items; opening and closing times use today's business schedule or holiday override. Custom replies remain available. Each new or existing contact receives the menu on their first eligible message of each calendar day, using the business timezone. Subsequent messages use option numbers/names, keyword rules or the default reply; commands and unmatched messages do not resend the menu that day. Selections remain active for 30 minutes. Menu greetings and selections bypass and do not start the normal reply cooldown. The daily greeting precedes Busy and closed-hours replies; Pro access, automation settings, human handover and manual pauses still apply. The current QR transport sends a text menu, not native clickable WhatsApp buttons.
 
 Every menu also includes **0. Stop for today**. After receiving today's menu, the customer can send `0`, `Stop`, or `Stop for today` to pause automated replies for that chat until midnight in the business timezone. Incoming messages continue to appear in the inbox, manual replies remain available, and queued follow-ups for the stopped chat are cancelled. Other chats and the global automation switch are unaffected. The date marker persists across server restarts and expires automatically the next day.
+
+## Credits
+
+Created By Arbab Arshad

@@ -244,6 +244,198 @@ const endpointGroups: { title: string; endpoints: Endpoint[] }[] = [
       },
     ],
   },
+
+  {
+    title: 'Subscriptions & manual payments',
+    endpoints: [
+      {
+        method: 'GET',
+        path: '/api/v1/billing/plans',
+        public: true,
+        description: 'Public prices: monthly ₹59 (5900 paise), yearly ₹650 (65000 paise).',
+        response: '{ plans: SubscriptionPlan[] }',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/account/access',
+        description:
+          'Read the authenticated user’s admin flag and effective Free/Pro access. Admins always have Pro.',
+        response: '{ admin, access: { tier, source, expiresAt, version } }',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/billing',
+        description:
+          'Read plans, payment configuration, effective subscription, access and recent payment requests.',
+        response:
+          '{ plans, paymentConfigured, enforcementEnabled, access, subscription, active, payments }',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/billing/payments',
+        description: 'List your payment requests using limit and cursor pagination.',
+        response: '{ items, nextCursor }',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/billing/payments/:id',
+        description: 'Read your request with its UPI link and QR image.',
+        response: 'ManualPayment with upiLink and qrDataUrl',
+      },
+      {
+        method: 'POST',
+        path: '/api/v1/billing/payments',
+        description:
+          'Create an idempotent request. Reusing requestId for a different plan returns REQUEST_CONFLICT. An active same plan, scheduled next plan, or unfinished request blocks purchase. Limit: 10 requests/hour.',
+        request: {
+          planId: 'monthly',
+          requestId: '00000000-0000-4000-8000-000000000001',
+        },
+        response:
+          'ManualPayment; amountPaise, INR currency, status, version and timestamps are server assigned.',
+      },
+      {
+        method: 'PATCH',
+        path: '/api/v1/billing/payments/:id',
+        description:
+          'Submit a reference or cancel a pending unpaid request. Use its latest version. Submit queues admin notification and review; it does not activate Pro. References must be unique. To cancel send { action: "cancel", expectedVersion }.',
+        request: {
+          action: 'submit',
+          reference: '123456789012',
+          expectedVersion: 1,
+        },
+        response:
+          'Updated ManualPayment; statuses: pending, submitted, approved, rejected, cancelled.',
+      },
+    ],
+  },
+  {
+    title: 'Platform administration',
+    endpoints: [
+      {
+        method: 'GET',
+        path: '/api/v1/admin/system',
+        description: 'Platform admin only (ADMIN_UIDS). Read operator metrics.',
+        response: 'Monitoring snapshot',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/admin/users',
+        description:
+          'Platform admin only (ADMIN_UIDS). List Firebase users and workspace summaries; limit 1–100, default 25, cursor supported.',
+        response: '{ items, nextCursor }',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/admin/users/:id',
+        description:
+          'Platform admin only (ADMIN_UIDS). Read a user, workspace summary and up to 30 daily analytics records.',
+        response: 'User detail with workspace and analytics',
+      },
+      {
+        method: 'PATCH',
+        path: '/api/v1/admin/users/:id/plan',
+        description:
+          'Platform admin only (ADMIN_UIDS). Grant complimentary Pro or switch to Free using the access version. Platform admin plans cannot be changed.',
+        response: 'Updated access profile',
+        request: {
+          tier: 'pro',
+          expectedVersion: 0,
+        },
+      },
+      {
+        method: 'PATCH',
+        path: '/api/v1/admin/users/:id/automation',
+        description:
+          'Platform admin only (ADMIN_UIDS). Set workspace automation using the settings version; effective Pro access is still required to reply.',
+        response: '{ automationEnabled, version }',
+        request: {
+          enabled: true,
+          expectedVersion: 0,
+        },
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/admin/enquiries',
+        description: 'Platform admin only (ADMIN_UIDS). List support enquiries with pagination.',
+        response: '{ items, nextCursor }',
+      },
+      {
+        method: 'PATCH',
+        path: '/api/v1/admin/enquiries/:id',
+        description:
+          'Platform admin only (ADMIN_UIDS). Set an enquiry to new or resolved using its latest version.',
+        response: 'Updated enquiry',
+        request: {
+          status: 'resolved',
+          expectedVersion: 0,
+        },
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/admin/audit',
+        description:
+          'Platform admin only (ADMIN_UIDS). List administrator actions with pagination.',
+        response: '{ items, nextCursor }',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/admin/payments',
+        description:
+          'Platform admin only (ADMIN_UIDS). List payment reviews; paymentStatus filters requests, such as submitted. Includes notification status.',
+        response: '{ items, nextCursor }',
+      },
+      {
+        method: 'PATCH',
+        path: '/api/v1/admin/payments/:id',
+        description:
+          'Platform admin only (ADMIN_UIDS). Approve only after confirming actual bank credit and exact amount. A different active plan queues the approved period after expiry. Reject with decision: reject, expectedVersion and a required note.',
+        response: 'Updated ManualPayment with approved period when applicable',
+        request: {
+          decision: 'approve',
+          expectedVersion: 2,
+          bankCreditVerified: true,
+          verifiedAmountPaise: 5900,
+          note: 'Bank credit verified.',
+        },
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/admin/payment-whatsapp/status',
+        description:
+          'Platform admin only (ADMIN_UIDS). Read the separate payment sender session, including QR when available and configured recipientNumber.',
+        response: 'WhatsAppStatus with recipientNumber',
+      },
+      {
+        method: 'POST',
+        path: '/api/v1/admin/payment-whatsapp/connect',
+        description:
+          'Platform admin only. Connect the payment notification sender independently of business automation. No body required; omit Content-Type when sending no body.',
+        response: 'WhatsAppStatus',
+      },
+      {
+        method: 'POST',
+        path: '/api/v1/admin/payment-whatsapp/reconnect',
+        description:
+          'Platform admin only. Reconnect the payment notification sender independently of business automation. No body required; omit Content-Type when sending no body.',
+        response: 'WhatsAppStatus',
+      },
+      {
+        method: 'POST',
+        path: '/api/v1/admin/payment-whatsapp/disconnect',
+        description:
+          'Platform admin only. Disconnect the payment notification sender independently of business automation. No body required; omit Content-Type when sending no body.',
+        response: 'WhatsAppStatus',
+      },
+      {
+        method: 'POST',
+        path: '/api/v1/admin/payment-whatsapp/logout',
+        description:
+          'Platform admin only. Logout the payment notification sender independently of business automation. No body required; omit Content-Type when sending no body.',
+        response: 'WhatsAppStatus',
+      },
+    ],
+  },
   {
     title: 'Workspace & availability',
     endpoints: [
@@ -562,8 +754,10 @@ const settingsDescriptions: Record<string, string> = {
   leadKeywords: 'Up to 30 nonempty strings, each up to 100 characters.',
   welcomeEnabled: 'Enable the welcome response.',
   welcomeMessage: 'Up to 10,000 characters.',
-  menuEnabled: 'Enable menu responses.',
-  menuOptions: 'Up to 9 { label, response } objects. label: 1–120 characters; response: 1–10,000.',
+  menuEnabled: 'Send a numbered menu once per eligible direct chat per business-timezone day.',
+  menuMessage: 'Menu introduction, up to 10,000 characters; supports reply placeholders.',
+  menuOptions:
+    'Up to 9 { label, response, action } objects. label: 1–120 characters. action: custom (default), pricing, opening_hours, closing_hours. Custom replies require nonempty response (max 10,000). Built-in Stop for today is appended separately.',
   followUpEnabled: 'Enable follow-ups.',
   followUpHours: '1–168 hours.',
   followUpMessage: 'Up to 10,000 characters.',
@@ -590,6 +784,11 @@ const responseFields: { title: string; fields: Field[] }[] = [
         'Latest message, linked lead, and customer notes.',
       ],
       ['tags', 'string[] · optional', 'Customer tags.'],
+      [
+        'menuLastSentDate, receptionistStoppedDate',
+        'string · optional',
+        'Business-timezone dates for daily menu delivery and the customer’s Stop for today preference. Read-only.',
+      ],
       [
         'pauseUntil, lastAutoReplyAt, lastManualReplyAt',
         'number · optional',
@@ -730,11 +929,13 @@ export function ApiDocumentation() {
           <code>http://localhost:3001</code>. Use HTTPS for hosted deployments.
         </p>
         <p>
-          Except for health, contact submission, and the operator-only operations endpoint, every
-          endpoint requires <code>Authorization: Bearer &lt;FIREBASE_ID_TOKEN&gt;</code>. Obtain a
-          fresh Firebase ID token from the signed-in user in your client. This API does not issue
-          passwords, API keys, or service-account tokens. Requests access only the signed-in user’s
-          workspace; do not send a userId parameter.
+          Except for health, public billing plans, contact submission, and the operator-only
+          operations endpoint, every endpoint requires{' '}
+          <code>Authorization: Bearer &lt;FIREBASE_ID_TOKEN&gt;</code>. Obtain a fresh Firebase ID
+          token from the signed-in user in your client. This API does not issue passwords, API keys,
+          or service-account tokens. Requests access only the signed-in user’s workspace. Admin
+          routes explicitly allow configured platform admins to manage users and payment requests by
+          ID.
         </p>
         <pre>
           <code>
@@ -745,7 +946,8 @@ export function ApiDocumentation() {
         </pre>
         <p>
           Send <code>Content-Type: application/json</code> with JSON bodies. Standard successful
-          JSON responses use HTTP 200, including creation:
+          JSON responses use HTTP 200, including creation. For bodyless actions, omit Content-Type
+          or send an empty JSON object; an empty body with application/json is invalid:
         </p>
         <pre>
           <code>

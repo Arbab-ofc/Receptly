@@ -55,17 +55,24 @@ export function PublicLayout() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <header className={`public-header ${open ? 'navigation-open' : ''}`} onKeyDown={(event) => {
-        if (event.key === 'Escape') {
-          setOpen(false);
-          event.currentTarget.querySelector<HTMLButtonElement>('.mobile-menu')?.focus();
-        }
-      }}>
+      <header
+        className={`public-header ${open ? 'navigation-open' : ''}`}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            setOpen(false);
+            event.currentTarget.querySelector<HTMLButtonElement>('.mobile-menu')?.focus();
+          }
+        }}
+      >
         <div className="container nav-inner">
           <Link to="/" aria-label="Receptly home">
             <Brand />
           </Link>
-          <nav id="public-navigation" className={open ? 'public-nav open' : 'public-nav'} aria-label="Main navigation">
+          <nav
+            id="public-navigation"
+            className={open ? 'public-nav open' : 'public-nav'}
+            aria-label="Main navigation"
+          >
             <span className="public-nav-heading">Explore Receptly</span>
             {[
               ['Product', '/#product'],
@@ -80,7 +87,11 @@ export function PublicLayout() {
                 <ArrowUpRight className="public-nav-arrow" size={19} aria-hidden="true" />
               </Link>
             ))}
-            <Link className="public-nav-account" to={user ? '/dashboard' : '/login'} onClick={() => setOpen(false)}>
+            <Link
+              className="public-nav-account"
+              to={user ? '/dashboard' : '/login'}
+              onClick={() => setOpen(false)}
+            >
               <span>{user ? 'Open your workspace' : 'Sign in to your workspace'}</span>
               <ArrowRight size={18} aria-hidden="true" />
             </Link>
@@ -109,12 +120,21 @@ export function PublicLayout() {
               aria-controls="public-navigation"
               onClick={() => setOpen(!open)}
             >
-              <span className="navigation-toggle-lines" aria-hidden="true"><i /><i /></span>
+              <span className="navigation-toggle-lines" aria-hidden="true">
+                <i />
+                <i />
+              </span>
             </Button>
           </div>
         </div>
       </header>
-      <button type="button" className={`public-navigation-backdrop ${open ? 'is-open' : ''}`} aria-label="Close navigation" tabIndex={-1} onClick={() => setOpen(false)} />
+      <button
+        type="button"
+        className={`public-navigation-backdrop ${open ? 'is-open' : ''}`}
+        aria-label="Close navigation"
+        tabIndex={-1}
+        onClick={() => setOpen(false)}
+      />
       <main id="main-content" tabIndex={-1}>
         <Outlet />
       </main>
@@ -159,7 +179,7 @@ function Footer() {
       <div className="container footer-bottom">
         <span>© 2026 Receptly. All rights reserved.</span>
         <span>
-          <i /> Built for better conversations
+          <i /> Created By Arbab Arshad
         </span>
       </div>
     </footer>
@@ -711,7 +731,7 @@ const guideSteps = [
   [
     'business',
     'Create your workspace',
-    'Create an account, then save your business name and timezone in Settings. Your timezone controls business hours.',
+    'Create an account, then save your business name and timezone in Settings. Your timezone controls business hours, holiday dates, and the daily menu reset. Email/password and Google sign-in are supported.',
     '/dashboard/settings?section=business&onboarding=1',
   ],
   [
@@ -735,7 +755,7 @@ const guideSteps = [
   [
     'activate',
     'Activate your receptionist',
-    'Check your connection and setup checklist in Overview, then enable your receptionist. New messages and replies will appear in the inbox.',
+    'Check your connection and setup checklist in Overview, confirm Pro access, then enable your receptionist. Choose Available mode to test keyword replies during business hours. New messages and replies will appear in the inbox.',
     '/dashboard',
   ],
   [
@@ -744,6 +764,94 @@ const guideSteps = [
     'Open the inbox and choose Needs human. Reply yourself when a customer asks for a person. Manual replies pause automation; resume it when you are ready.',
     '/dashboard/inbox',
   ],
+];
+const documentationTopics: { id: string; title: string; paragraphs: string[] }[] = [
+  {
+    id: 'reply-routing',
+    title: 'How automatic replies are chosen',
+    paragraphs: [
+      'Incoming messages are recorded before automation checks. Replies require a connected business WhatsApp session, Pro access, and an enabled receptionist. Ignored or blocked contacts, contact restrictions, a paused conversation, and a customer’s Stop for today preference can prevent replies.',
+      'For an eligible direct conversation, a human-help request takes priority. The first eligible message of the business day receives the daily menu when enabled. After that, closed hours and holiday responses take priority, followed by the reply for a mode other than Available. Menu selections and keyword rules are evaluated during open hours in Available mode.',
+      'Enabled rules run in ascending priority order, with the rule ID breaking ties. Stop processing ends evaluation at that rule. If no rule matches, Receptly checks the catalog, then knowledge-base keywords, then a welcome reply for a new contact, and finally the no-match fallback. Group messages use enabled group rules and require groups to be allowed.',
+      'Example: in Busy mode, a customer asking about prices receives your Busy response after the daily menu. Switch to Available during open hours to test the pricing rule. A matching rule on cooldown does not fall through to a no-match reply.',
+    ],
+  },
+  {
+    id: 'daily-menu',
+    title: 'Daily menu & Stop for today',
+    paragraphs: [
+      'In Settings, enable the menu, write its introduction, and add up to nine options. Choose a custom reply, pricing, opening hours, or closing hours. Pricing uses your catalog; opening and closing times use your configured schedule and holidays and display AM/PM.',
+      'The menu is sent once per chat per day, for both new and existing contacts, on any eligible incoming message. The first message triggers the menu instead of also triggering a keyword reply. The day resets at midnight in your business timezone. Contact exclusions and conversation pauses still apply.',
+      'This is a numbered WhatsApp text menu. Customers reply with an option number or its label; it does not use native clickable WhatsApp buttons. Subsequent unmatched text can reach keyword rules or your fallback, subject to business hours, mode, and cooldowns.',
+      'The built-in 0. Stop for today option pauses automatic replies only for that conversation until local midnight. Customers can send 0, stop, or stop for today after receiving the daily menu. Other customers’ automation continues.',
+    ],
+  },
+  {
+    id: 'reply-timing',
+    title: 'Cooldowns & manual reply pauses',
+    paragraphs: [
+      'Settings → reply timing controls Minimum time between automatic replies (minutes). This is a per-conversation gap between ordinary automatic replies; it does not delay every new customer’s first response. A rule can also have its own cooldown, and fallback and closed-hours replies have separate cooldowns. All applicable gaps must have elapsed.',
+      'Pause after a manual reply (minutes) is different: after you reply manually, the conversation temporarily stops automation so the bot does not interrupt your exchange. The Inbox also offers explicit pause, human takeover, and resume controls.',
+      'A value of 30 means thirty minutes, not a daily reset. A zero cooldown allows immediate eligible replies. Human acknowledgements, menu selections, and the Stop confirmation use immediate reply handling. Daily menu frequency remains once per business day.',
+    ],
+  },
+  {
+    id: 'reply-content',
+    title: 'Templates, catalog & knowledge base',
+    paragraphs: [
+      'Use Templates for reusable reply content and attach a template to a rule, or write the rule response directly. Supported match types are exact, contains, starts with, keyword, any keyword, and all keywords. Review case sensitivity, priority, scope, and stop processing before enabling a rule.',
+      'Add products and services in Catalog with descriptions, prices, currency, keywords, availability, and an optional link. Keep enabled items accurate: matching customer questions and the pricing menu use this data. Add common questions and keyword-based answers to the Knowledge base.',
+      'Replies support {{name}}, {{business_name}}, {{current_time}}, and {{business_hours}}. Customer names come from saved contact or WhatsApp metadata when available; a name is not guaranteed for every sender. Keep the message useful without a name. Automatic replies use the app’s professional text formatting rather than graphical WhatsApp cards.',
+    ],
+  },
+  {
+    id: 'holidays-guide',
+    title: 'Schedules, holidays & modes',
+    paragraphs: [
+      'Schedule defines weekly working intervals in your business timezone, including overnight opening hours. Holidays can close a date or set special hours and a custom response. Review enabled holiday entries before testing a closed-hours message.',
+      'Available allows the regular reply pipeline during open hours. Busy, Away, Meeting, Vacation, and Offline use their configured mode replies. Closed hours take precedence over these modes after the first daily menu. Configure closed-hours replies and fallback content in Settings.',
+      'The dashboard’s reporting periods and hourly activity use UTC. That is separate from your business timezone, which controls schedule checks and daily menu dates.',
+    ],
+  },
+  {
+    id: 'contacts-guide',
+    title: 'Contacts, inbox & follow-ups',
+    paragraphs: [
+      'Contacts shared by your linked WhatsApp session are saved as WhatsApp sends contact updates. Synchronization depends on the data WhatsApp provides and is not a guaranteed full phone address-book import. Incoming conversations also create contact records.',
+      'In Contacts, mark selected people Ignore or Blocked to stop automatic replies to them. VIP bypass and unknown-contacts-only are additional settings; leave unknown-contacts-only off if existing contacts should receive the daily menu and regular replies.',
+      'Use Inbox to read incoming and outgoing messages, send a manual reply, add notes and tags, and pause or resume a conversation. Human-help keywords mark the conversation for attention. Lead detection can capture enquiries based on configured keywords.',
+      'Enable follow-ups and set the delay and message in Settings. Successful rule replies can schedule a follow-up; a subsequent customer message cancels pending follow-ups. Review Activity logs and Analytics to understand message and rule activity.',
+    ],
+  },
+  {
+    id: 'subscriptions-guide',
+    title: 'Free, Pro & payment verification',
+    paragraphs: [
+      'Free accounts can prepare and manage their workspace; automatic replies require Pro. Monthly Pro costs ₹59 for one month, and yearly Pro costs ₹650 for twelve months. Platform admins always have Pro access. Admins can grant complimentary Pro without taking a payment.',
+      'Choose a plan on Pricing, open the payment page, pay using the displayed UPI details or QR, and submit the transaction reference. The request remains awaiting review until an admin verifies the bank credit and approves it. Submitting a reference or sending a WhatsApp notification does not itself activate Pro.',
+      'You cannot buy your currently active paid plan again until it expires. A different plan is scheduled to start after the current plan ends when approved. For example, yearly after monthly preserves the monthly period and then starts twelve months of yearly access. Only one next plan can be scheduled. Finish or cancel a pending payment request before creating another.',
+      'Admins review submitted payments in the admin dashboard, confirm the credited amount and reference, then approve or reject with a note. A rejected payment request does not automatically refund a bank transfer.',
+    ],
+  },
+  {
+    id: 'payment-notifications-guide',
+    title: 'Separate payment WhatsApp & admin setup',
+    paragraphs: [
+      'On the server, configure ADMIN_UIDS with the Firebase UID of each platform admin. Sign in with that account to access the admin dashboard. Admins can review users, change Free/Pro access, control workspace automation, review support enquiries and payments, and inspect the audit log.',
+      'Configure PAYMENT_UPI_ID and PAYMENT_PAYEE_NAME for checkout, and PAYMENT_NOTIFY_WHATSAPP_NUMBER for the admin notification recipient. In Admin → Payments, use Connect payment WhatsApp and scan its QR with the separate sender account’s Linked Devices. This session is independent of the customer automation connection.',
+      'When a customer submits a payment reference, the notification includes the request, reference, plan, amount, and user details for manual verification. Check its delivery status in the payment review screen. Keep the backend and payment sender connected; the admin dashboard remains the source for payment review.',
+      'OPERATIONS_TOKEN is a server-generated random secret for the private operations endpoint. ALERT_WEBHOOK_URL is optional and comes from your alert receiver. BACKUP_ENCRYPTION_KEY is a 32-byte hexadecimal key kept separately from encrypted backups. Deployment and backup instructions are in the repository README; these values belong in server configuration.',
+    ],
+  },
+  {
+    id: 'account-security-guide',
+    title: 'Password recovery & account management',
+    paragraphs: [
+      'Email/password users can choose Forgot password on the sign-in page to request a Firebase password reset email. Follow the email link to set a new password. Check spam if it does not arrive. Google-linked accounts use Google’s account recovery.',
+      'For an email/password account, open Settings → Account to change your password. Enter the current password, then a new password of at least eight characters and its confirmation. The app reauthenticates before changing it. Google-linked accounts do not show this password-change flow.',
+      'Settings → Account also offers data export and account deletion. Review the deletion confirmation carefully. On phones and tablets, use the visible settings section tabs to move between business, replies, contacts, and account preferences.',
+    ],
+  },
 ];
 export function Documentation() {
   return (
@@ -754,6 +862,12 @@ export function Documentation() {
           {guideSteps.map(([id, title], i) => (
             <a key={id} href={`#${id}`}>
               {i + 1}. {title}
+            </a>
+          ))}
+          <span className="guide-contents-label">WORKSPACE GUIDE</span>
+          {documentationTopics.map(({ id, title }) => (
+            <a key={id} href={`#${id}`}>
+              {title}
             </a>
           ))}
           <a href="#troubleshooting">Troubleshooting</a>
@@ -768,7 +882,11 @@ export function Documentation() {
       <article className="prose guide-article">
         <span className="eyebrow">GETTING STARTED</span>
         <h1>Set up your WhatsApp receptionist.</h1>
-        <p>Connect your number, review your replies, and turn on automation when you’re ready.</p>
+        <p>
+          From your first connection to daily menus, payment verification, and the API: a complete
+          guide to running Receptly.
+        </p>
+        <p className="documentation-credit">Created By Arbab Arshad</p>
         {guideSteps.map(([id, title, text, url], i) => (
           <section id={id} key={id}>
             <Badge>{String(i + 1).padStart(2, '0')}</Badge>
@@ -779,6 +897,14 @@ export function Documentation() {
               Open {id === 'link-whatsapp' ? 'WhatsApp connection' : title.toLowerCase()}{' '}
               <ArrowUpRight size={15} />
             </Link>
+          </section>
+        ))}
+        {documentationTopics.map(({ id, title, paragraphs }) => (
+          <section id={id} key={id}>
+            <h2>{title}</h2>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </section>
         ))}
         <section id="troubleshooting">
@@ -794,7 +920,19 @@ export function Documentation() {
             ],
             [
               'No automatic reply?',
-              'Check that WhatsApp is connected, the receptionist is enabled, the rule is active, and the conversation is not paused. Business hours, contact preferences, and reply cooldowns also affect replies.',
+              'Confirm Pro access, a connected business WhatsApp session, an enabled receptionist, and an unpaused conversation. Test from a different number. Check contact exclusions, Stop for today, business hours, mode, rule keywords, and cooldowns. In Busy mode the mode reply takes priority over keyword rules.',
+            ],
+            [
+              'No message activity, even after a test message?',
+              'The HTTP request logs only show dashboard requests, not WhatsApp message delivery. Look for whatsapp_event_failed in server logs and inspect Activity logs and Diagnostics. Verify you messaged the business automation number rather than the separate payment sender. Keep the server running and reconnect the business session if needed.',
+            ],
+            [
+              'Payment submitted but still Free?',
+              'Wait for admin verification. A transaction reference or notification is not proof of bank credit. The admin must approve the payment; a scheduled plan begins after the current paid period ends.',
+            ],
+            [
+              'Menu option sends Busy or closed-hours text?',
+              'After the daily menu, availability takes priority over menu selections. Use Available mode during open hours to receive the option answer.',
             ],
             [
               'Connection interrupted?',
